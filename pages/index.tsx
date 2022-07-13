@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { NextPage } from "next";
 import { useEffect, useState } from 'react';
-import { Button, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Button, Card, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core';
 
 import Header from '../components/Header';
+import Response from '../components/Response';
 import styles from '../styles/Home.module.css'
 
 const useStyles = makeStyles({
@@ -38,6 +39,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const classes = useStyles()
   const [fields, setFields] = useState<ItemType[]>([]);
   const [errorText, setErrorText] = useState("");
+  const [responseData, setResponceData] = useState<any>()
 
   useEffect(() => {
     if (data) {
@@ -57,6 +59,7 @@ const Home: NextPage<Props> = ({ data }) => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    setResponceData(null);
 
     let data = {};
     Object.keys(event.target).forEach(key => {
@@ -72,11 +75,14 @@ const Home: NextPage<Props> = ({ data }) => {
     }
 
     const response = await axios.post('https://ulventech-react-exam.netlify.app/api/form', data, { headers })
-      .then(data => {
-        if (data) setErrorText('')
+      .then(response => {
+        if (response) {
+          setErrorText('')
+          setResponceData(response?.data?.data)
+        }
       })
       .catch(err => {
-        setErrorText(err.response.data.message)
+        if (err) setErrorText(err?.response?.data?.message)
       })
 
   }
@@ -86,7 +92,7 @@ const Home: NextPage<Props> = ({ data }) => {
       <Header />
       <div className={styles.container}>
         <main className={styles.main}>
-          <div className={styles.grid}>
+          <Card className={styles.grid}>
             <form onSubmit={handleSubmit}>
               <Grid className={classes.form}>
                 {
@@ -139,7 +145,8 @@ const Home: NextPage<Props> = ({ data }) => {
                 </Button>
               </Grid>
             </form>
-          </div>
+          </Card>
+          {responseData && <Response data={responseData} />}
         </main>
       </div>
     </>
