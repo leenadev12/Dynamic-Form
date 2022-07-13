@@ -109,7 +109,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       return <TextField
                         className={classes.field}
                         variant="outlined"
-                        label={item['fieldName']}
+                        label={(item['fieldName'].charAt(0).toUpperCase() + item['fieldName'].slice(1)).replace(/[A-Z]/g, ' $&').trim()}
                         placeholder={item['fieldName']}
                         id={item['fieldName']}
                         multiline={item['type'] === 'multiline' ? true : false}
@@ -125,7 +125,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       return <TextField
                         select
                         variant="outlined"
-                        label="Select"
+                        label={(item['fieldName'].charAt(0).toUpperCase() + item['fieldName'].slice(1)).replace(/[A-Z]/g, ' $&').trim()}
                         key={index}
                         name={item['fieldName']}
                         className={classes.field}
