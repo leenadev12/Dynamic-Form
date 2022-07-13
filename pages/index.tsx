@@ -1,9 +1,10 @@
+import axios from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ data }: any) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -67,6 +68,21 @@ const Home: NextPage = () => {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  let data = {};
+  await axios
+    .get("https://ulventech-react-exam.netlify.app/api/form")
+    .then((response) => {
+      if (response) {
+        data = response.data.data;
+      }
+    })
+    .catch((error) => {
+      console.log("Error", error);
+    });
+  return { props: { data } }
 }
 
 export default Home
