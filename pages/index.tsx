@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from 'react';
 import { Button, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core';
 
+import Header from '../components/Header';
 import styles from '../styles/Home.module.css'
 
 const useStyles = makeStyles({
@@ -70,62 +71,66 @@ const Home: NextPage<Props> = ({ data }) => {
   }
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div className={styles.grid}>
-          <form onSubmit={handleSubmit}>
-            <Grid className={classes.form}>
-              {
-                fields?.map((item: ItemType, index: number) => {
-                  if (item['type'] === 'text' || item['type'] === 'multiline') {
-                    return <TextField
-                      className={classes.field}
-                      variant="outlined"
-                      label={item['fieldName']}
-                      id={item['fieldName']}
-                      multiline={item['type'] === 'multiline' ? true : false}
-                      minRows={item['type'] === 'multiline' ? 5 : 1}
-                      maxRows={item['type'] === 'multiline' ? 10 : 1}
-                      key={index}
-                      defaultValue={item['value']}
-                      onChange={(e) => handleChange(e.target.value, item)}
-                    />
-                  }
-                  if (item['type'] === 'select') {
-                    return <TextField
-                      select
-                      variant="outlined"
-                      label="Select"
-                      key={index}
-                      name={item['fieldName']}
-                      className={classes.field}
-                      defaultValue={item['value']}
-                      onChange={(e) => handleChange(e.target.value, item)}
-                      margin="normal"
-                    >
-                      {item['options']?.map((option: string) => (
-                        <MenuItem key={option} value={option}>
-                          {option}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  }
-                })
-              }
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                size={'large'}
-                style={{ marginTop: 25, width: 300 }}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </form>
-        </div>
-      </main>
-    </div>
+    <>
+      <Header />
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <div className={styles.grid}>
+            <form onSubmit={handleSubmit}>
+              <Grid className={classes.form}>
+                {
+                  fields?.map((item: ItemType, index: number) => {
+                    if (item['type'] === 'text' || item['type'] === 'multiline') {
+                      return <TextField
+                        className={classes.field}
+                        variant="outlined"
+                        label={item['fieldName']}
+                        placeholder={item['fieldName']}
+                        id={item['fieldName']}
+                        multiline={item['type'] === 'multiline' ? true : false}
+                        minRows={item['type'] === 'multiline' ? 5 : 1}
+                        maxRows={item['type'] === 'multiline' ? 10 : 1}
+                        key={index}
+                        defaultValue={item['value']}
+                        onChange={(e) => handleChange(e.target.value, item)}
+                      />
+                    }
+                    if (item['type'] === 'select') {
+                      return <TextField
+                        select
+                        variant="outlined"
+                        label="Select"
+                        key={index}
+                        name={item['fieldName']}
+                        className={classes.field}
+                        defaultValue={item['value']}
+                        onChange={(e) => handleChange(e.target.value, item)}
+                        margin="normal"
+                      >
+                        {item['options']?.map((option: string) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    }
+                  })
+                }
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  size={'large'}
+                  style={{ marginTop: 25, width: 300 }}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </form>
+          </div>
+        </main>
+      </div>
+    </>
   )
 }
 
