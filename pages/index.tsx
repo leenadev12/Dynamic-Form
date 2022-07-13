@@ -39,7 +39,8 @@ const Home: NextPage<Props> = ({ data }) => {
   const classes = useStyles()
   const [fields, setFields] = useState<ItemType[]>([]);
   const [errorText, setErrorText] = useState("");
-  const [responseData, setResponceData] = useState<any>()
+  const [responseData, setResponceData] = useState<any>();
+  const [disableFields, setDisableFields] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -60,6 +61,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setResponceData(null);
+    setDisableFields(true)
 
     let data = {};
     Object.keys(event.target).forEach(key => {
@@ -78,6 +80,7 @@ const Home: NextPage<Props> = ({ data }) => {
       .then(response => {
         if (response) {
           setErrorText('')
+          setDisableFields(false)
           setResponceData(response?.data?.data)
         }
       })
@@ -109,6 +112,7 @@ const Home: NextPage<Props> = ({ data }) => {
                         maxRows={item['type'] === 'multiline' ? 10 : 1}
                         key={index}
                         defaultValue={item['value']}
+                        disabled={disableFields}
                         onChange={(e) => handleChange(e.target.value, item)}
                       />
                     }
@@ -121,6 +125,7 @@ const Home: NextPage<Props> = ({ data }) => {
                         name={item['fieldName']}
                         className={classes.field}
                         defaultValue={item['value']}
+                        disabled={disableFields}
                         onChange={(e) => handleChange(e.target.value, item)}
                         margin="normal"
                       >
@@ -139,6 +144,7 @@ const Home: NextPage<Props> = ({ data }) => {
                   color="primary"
                   type="submit"
                   size={'large'}
+                  disabled={disableFields}
                   style={{ marginTop: 25, width: 300 }}
                 >
                   Submit
