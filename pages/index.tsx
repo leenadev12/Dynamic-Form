@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { NextPage } from "next";
 import { useEffect, useState } from 'react';
-import { Button, Card, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core';
+import { Button, Card, CircularProgress, Grid, makeStyles, MenuItem, TextField } from '@material-ui/core';
 
 import Header from '../components/Header';
 import Response from '../components/Response';
@@ -21,6 +21,11 @@ const useStyles = makeStyles({
   },
   errrText: {
     color: 'red'
+  },
+  circularProgress: {
+    color: 'white',
+    position: 'relative',
+    left: '10px'
   }
 });
 
@@ -148,6 +153,7 @@ const Home: NextPage<Props> = ({ data }) => {
                   style={{ marginTop: 25, width: 300 }}
                 >
                   Submit
+                  {disableFields && <CircularProgress className={classes.circularProgress} size={20} />}
                 </Button>
               </Grid>
             </form>
