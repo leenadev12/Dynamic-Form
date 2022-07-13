@@ -50,8 +50,23 @@ const Home: NextPage<Props> = ({ data }) => {
     })
   }
 
-  const handleSubmit = () => {
-    console.log('submitted')
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    let data = {};
+    Object.keys(event.target).forEach(key => {
+      const fieldVal = event.target[key].id ? event.target[key].id : event.target[key].namea
+      if (fieldVal) data = { ...data, [fieldVal]: event.target[key].value }
+    })
+
+    if (!Object.keys(data).includes('email')) data = { ...data, emailAddress: 'ulventech@gmail.com' }
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    }
+
+    const response = await axios.post('https://ulventech-react-exam.netlify.app/api/form', data, { headers })
   }
 
   return (
@@ -67,6 +82,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       className={classes.field}
                       variant="outlined"
                       label={item['fieldName']}
+                      id={item['fieldName']}
                       multiline={item['type'] === 'multiline' ? true : false}
                       minRows={item['type'] === 'multiline' ? 5 : 1}
                       maxRows={item['type'] === 'multiline' ? 10 : 1}
@@ -81,6 +97,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       variant="outlined"
                       label="Select"
                       key={index}
+                      name={item['fieldName']}
                       className={classes.field}
                       defaultValue={item['value']}
                       onChange={(e) => handleChange(e.target.value, item)}
