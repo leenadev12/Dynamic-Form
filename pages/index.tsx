@@ -17,6 +17,9 @@ const useStyles = makeStyles({
   button: {
     width: '100%',
     marginTop: '25px'
+  },
+  errrText: {
+    color: 'red'
   }
 });
 
@@ -34,6 +37,7 @@ interface Props {
 const Home: NextPage<Props> = ({ data }) => {
   const classes = useStyles()
   const [fields, setFields] = useState<ItemType[]>([]);
+  const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -68,6 +72,13 @@ const Home: NextPage<Props> = ({ data }) => {
     }
 
     const response = await axios.post('https://ulventech-react-exam.netlify.app/api/form', data, { headers })
+      .then(data => {
+        if (data) setErrorText('')
+      })
+      .catch(err => {
+        setErrorText(err.response.data.message)
+      })
+
   }
 
   return (
@@ -116,6 +127,7 @@ const Home: NextPage<Props> = ({ data }) => {
                     }
                   })
                 }
+                {errorText && <p className={classes.errrText}>{`* ${errorText}`}</p>}
                 <Button
                   variant="contained"
                   color="primary"
