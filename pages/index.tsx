@@ -85,7 +85,7 @@ const Home: NextPage<Props> = ({ data }) => {
 
     let data = {};
     Object.keys(event.target).forEach(key => {
-      const fieldVal = event.target[key].id ? event.target[key].id : event.target[key].namea
+      const fieldVal = event.target[key].id ? event.target[key].id : event.target[key].name
       if (fieldVal) data = { ...data, [fieldVal]: event.target[key].value }
     })
 
