@@ -50,7 +50,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const errMessage = useAppSelector(selectError)
   const [fields, setFields] = useState<ItemType[]>([]);
   const [errorText, setErrorText] = useState("");
-  const [responseData, setResponceData] = useState<any>();
+  const [responseData, setResponseData] = useState<any>();
   const [disableFields, setDisableFields] = useState(false);
 
   useEffect(() => {
@@ -60,10 +60,10 @@ const Home: NextPage<Props> = ({ data }) => {
     if (response) {
       setErrorText('');
       setDisableFields(false);
-      setResponceData(response?.data);
+      setResponseData(response?.data);
     }
     if (errMessage) {
-      setResponceData(null);
+      setResponseData(null);
       setErrorText(errMessage)
     }
   }, [response, errMessage]);
@@ -80,7 +80,7 @@ const Home: NextPage<Props> = ({ data }) => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    setResponceData(null);
+    setResponseData(null);
     setDisableFields(true)
 
     let data = {};
