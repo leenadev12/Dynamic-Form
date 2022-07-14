@@ -5,7 +5,10 @@ import { Button, Card, CircularProgress, Grid, makeStyles, MenuItem, TextField }
 
 import Header from '../components/Header';
 import Response from '../components/Response';
-import styles from '../styles/Home.module.css'
+import { submit } from '../redux/operation';
+import { selectError, selectResponse } from '../redux/formSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import styles from '../styles/Home.module.css';
 
 const useStyles = makeStyles({
   form: {
@@ -41,7 +44,10 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data }) => {
-  const classes = useStyles()
+  const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const response = useAppSelector(selectResponse)
+  const errMessage = useAppSelector(selectError)
   const [fields, setFields] = useState<ItemType[]>([]);
   const [errorText, setErrorText] = useState("");
   const [responseData, setResponceData] = useState<any>();
@@ -51,7 +57,16 @@ const Home: NextPage<Props> = ({ data }) => {
     if (data) {
       setFields(data);
     }
-  }, []);
+    if (response) {
+      setErrorText('');
+      setDisableFields(false);
+      setResponceData(response?.data);
+    }
+    if (errMessage) {
+      setResponceData(null);
+      setErrorText(errMessage)
+    }
+  }, [response, errMessage]);
 
   const handleChange = (value: string | number, item: ItemType) => {
     fields?.map((field: ItemType, index: number) => {
@@ -76,23 +91,7 @@ const Home: NextPage<Props> = ({ data }) => {
 
     if (!Object.keys(data).includes('email')) data = { ...data, emailAddress: 'ulventech@gmail.com' }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }
-
-    const response = await axios.post('https://ulventech-react-exam.netlify.app/api/form', data, { headers })
-      .then(response => {
-        if (response) {
-          setErrorText('')
-          setDisableFields(false)
-          setResponceData(response?.data?.data)
-        }
-      })
-      .catch(err => {
-        if (err) setErrorText(err?.response?.data?.message)
-      })
-
+    dispatch(submit(data))
   }
 
   return (
