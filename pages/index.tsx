@@ -13,13 +13,9 @@ import styles from '../styles/Home.module.css';
 
 const useStyles = makeStyles({
   form: {
-    width: '70%'
+    width: '100%'
   },
   field: {
-    width: '100%',
-    marginTop: '25px'
-  },
-  button: {
     width: '100%',
     marginTop: '25px'
   },
@@ -30,6 +26,9 @@ const useStyles = makeStyles({
     color: 'white',
     position: 'relative',
     left: '10px'
+  },
+  card: {
+    width: '100%'
   }
 });
 
@@ -100,7 +99,7 @@ const Home: NextPage<Props> = ({ data }) => {
       <Header />
       <div className={styles.container}>
         <main className={styles.main}>
-          <Card className={styles.grid}>
+          <Card className={`${styles.grid} ${classes.card}`}>
             <form onSubmit={handleSubmit}>
               <Grid className={classes.form}>
                 {
@@ -144,17 +143,18 @@ const Home: NextPage<Props> = ({ data }) => {
                   })
                 }
                 {errorText && <p className={classes.errrText}>{`* ${errorText}`}</p>}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  size={'large'}
-                  disabled={disableFields}
-                  style={{ marginTop: 25, width: 300 }}
-                >
-                  Submit
-                  {disableFields && <CircularProgress className={classes.circularProgress} size={20} />}
-                </Button>
+                <div className={styles.btnsubmit}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={disableFields}
+                    style={{ width: 300 }}
+                  >
+                    Submit
+                    {disableFields && <CircularProgress className={classes.circularProgress} size={20} />}
+                  </Button>
+                </div>
               </Grid>
             </form>
           </Card>
@@ -180,4 +180,4 @@ export async function getServerSideProps() {
   return { props: { data } }
 }
 
-export default Home
+export default Home;

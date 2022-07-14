@@ -1,5 +1,7 @@
 .container {
   padding: 0 2rem;
+  background-color: aliceblue;
+
 }
 
 .main {
@@ -10,6 +12,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 745px;
+  margin: 0 auto;
 }
 
 .footer {
@@ -71,6 +75,12 @@
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
+  padding: 20px;
+}
+
+.btnsubmit {
+  text-align: center;
+  margin-top: 25px;
 }
 
 .card {
