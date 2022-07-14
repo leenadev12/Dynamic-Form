@@ -6,6 +6,7 @@ import { Button, Card, CircularProgress, Grid, makeStyles, MenuItem, TextField }
 import Header from '../components/Header';
 import Response from '../components/Response';
 import { submit } from '../redux/operation';
+import { convertString } from '../utils/convertText';
 import { selectError, selectResponse } from '../redux/formSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import styles from '../styles/Home.module.css';
@@ -108,7 +109,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       return <TextField
                         className={classes.field}
                         variant="outlined"
-                        label={(item['fieldName'].charAt(0).toUpperCase() + item['fieldName'].slice(1)).replace(/[A-Z]/g, ' $&').trim()}
+                        label={convertString(item['fieldName'])}
                         placeholder={item['fieldName']}
                         id={item['fieldName']}
                         multiline={item['type'] === 'multiline' ? true : false}
@@ -124,7 +125,7 @@ const Home: NextPage<Props> = ({ data }) => {
                       return <TextField
                         select
                         variant="outlined"
-                        label={(item['fieldName'].charAt(0).toUpperCase() + item['fieldName'].slice(1)).replace(/[A-Z]/g, ' $&').trim()}
+                        label={convertString(item['fieldName'])}
                         key={index}
                         name={item['fieldName']}
                         className={classes.field}

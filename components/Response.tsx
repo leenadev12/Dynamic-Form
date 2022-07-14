@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { Card, Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core";
+import { convertString } from "../utils/convertText";
 
 type Props = {
     [key: string]: string | number
@@ -21,10 +22,9 @@ const Response: NextPage<IProps> = ({ data }) => {
                             Object.keys(data).map(key => (
                                 <TableRow>
                                     <TableCell component="th" scope="row">
-                                        {key}
+                                        {convertString(key)}
                                     </TableCell>
                                     <TableCell>{data[key]}</TableCell>
-
                                 </TableRow>
                             ))}
                     </TableBody>
